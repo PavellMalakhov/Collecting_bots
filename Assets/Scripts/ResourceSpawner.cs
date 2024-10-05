@@ -11,7 +11,7 @@ public class ResourceSpawner : MonoBehaviour
     [SerializeField] private float _repeatTime = 5f;
     [SerializeField] private float _resourceAreaSize = 50;
     [SerializeField] private float _heightArea = 0;
-    [SerializeField] private Dispatcher _dispatcher;
+    [SerializeField] private Base _base;
 
     private ObjectPool<Resource> _pool;
 
@@ -23,7 +23,7 @@ public class ResourceSpawner : MonoBehaviour
         createFunc: () => Instantiate(_prefab),
         actionOnGet: (obj) => SetActive(obj),
         actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-        actionOnDestroy: (obj) => Destroy(obj),
+        actionOnDestroy: (obj) => Destroy(obj.gameObject),
         collectionCheck: true,
         defaultCapacity: _poolCapaciti,
         maxSize: _poolMaxSize);
@@ -36,15 +36,15 @@ public class ResourceSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _dispatcher.ResourceUnloaded += Release;
+        _base.ResourceUnloaded += Release;
     }
 
     private void OnDisable()
     {
-        _dispatcher.ResourceUnloaded -= Release;
+        _base.ResourceUnloaded -= Release;
     }
 
-    private void GetResource()
+    private void CreateResource()
     {
         _pool.Get();
     }
@@ -78,7 +78,7 @@ public class ResourceSpawner : MonoBehaviour
         {
             yield return wait;
 
-            GetResource();
+            CreateResource();
         }
     }
 }

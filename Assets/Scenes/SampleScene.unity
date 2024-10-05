@@ -503,9 +503,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1037783029}
   - component: {fileID: 1037783030}
-  - component: {fileID: 1037783031}
   - component: {fileID: 1037783033}
   - component: {fileID: 1037783032}
+  - component: {fileID: 1037783034}
+  - component: {fileID: 1037783035}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -553,20 +554,6 @@ CapsuleCollider:
   m_Height: 6
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1037783031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037783028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f840c5c929d93274384f13e9ecc8b665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabUnit: {fileID: 3212867563942882177, guid: 108805852260d40409eaad9ec4db2649, type: 3}
-  _resourceSpawner: {fileID: 1894855889}
 --- !u!114 &1037783032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentResourceValue: {fileID: 1825124047}
+  _inventory: {fileID: 1037783033}
 --- !u!114 &1037783033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,9 +580,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f606eb4d6c30047b622bf033e24a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dispatcher: {fileID: 1037783031}
-  _resource: 0
-  _resourceTextDisplay: {fileID: 1037783032}
+  _base: {fileID: 1037783035}
+  _resourceValue: 0
+--- !u!114 &1037783034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037783028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656b35feee5396745869a2db455543a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceSpawner: {fileID: 1894855889}
+--- !u!114 &1037783035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037783028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2441517d84a7b574381f524346b2b52a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceSpawner: {fileID: 1894855889}
+  _prefabUnit: {fileID: 3212867563942882177, guid: 108805852260d40409eaad9ec4db2649, type: 3}
+  _scanner: {fileID: 1037783034}
+  _unitStartValue: 3
 --- !u!1 &1048292678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,9 +1108,8 @@ GameObject:
   - component: {fileID: 1894855888}
   - component: {fileID: 1894855887}
   - component: {fileID: 1894855886}
-  - component: {fileID: 1894855885}
-  - component: {fileID: 1894855889}
   - component: {fileID: 1894855890}
+  - component: {fileID: 1894855889}
   m_Layer: 0
   m_Name: ResourceAria
   m_TagString: Untagged
@@ -1102,28 +1117,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1894855885
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1894855884}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1894855886
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1207,7 +1200,7 @@ MonoBehaviour:
   _repeatTime: 2
   _resourceAreaSize: 50
   _heightArea: 0
-  _dispatcher: {fileID: 1037783031}
+  _base: {fileID: 1037783035}
 --- !u!64 &1894855890
 MeshCollider:
   m_ObjectHideFlags: 0

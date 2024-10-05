@@ -1,25 +1,27 @@
 using UnityEngine;
+using System;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] Dispatcher _dispatcher;
-    [SerializeField] private int _resource = 0;
-    [SerializeField] private ResourceTextDisplay _resourceTextDisplay;
+    [SerializeField] private Base _base;
+    [SerializeField] private int _resourceValue = 0;
+
+    public event Action<int> ResourceChanged;
 
     private void OnEnable()
     {
-        _dispatcher.ResourceUnloaded += AddResource;
+        _base.ResourceUnloaded += AddResource;
     }
 
     private void OnDisable()
     {
-        _dispatcher.ResourceUnloaded -= AddResource;
+        _base.ResourceUnloaded -= AddResource;
     }
 
     private void AddResource(Resource resource)
     {
-        _resource++;
+        _resourceValue++;
 
-        _resourceTextDisplay.RenderResource(_resource);
+        ResourceChanged?.Invoke(_resourceValue);
     }
 }

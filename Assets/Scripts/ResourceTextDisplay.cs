@@ -5,9 +5,20 @@ using System;
 public class ResourceTextDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _currentResourceValue;
+    [SerializeField] private Inventory _inventory;
 
-    public void RenderResource(int resource)
+    private void OnEnable()
     {
-        _currentResourceValue.text = Convert.ToString(resource);
+        _inventory.ResourceChanged += RenderResourceValue;
+    }
+
+    private void OnDisable()
+    {
+        _inventory.ResourceChanged -= RenderResourceValue;
+    }
+
+    public void RenderResourceValue(int resourceValue)
+    {
+        _currentResourceValue.text = Convert.ToString(resourceValue);
     }
 }
