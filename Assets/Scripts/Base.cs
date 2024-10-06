@@ -32,7 +32,7 @@ public class Base : Scanner
     {
         for (int i = 0; i < _unitStartValue; i++)
         {
-            ÑreateUnit();
+            CreateUnit();
         }
     }
 
@@ -44,7 +44,7 @@ public class Base : Scanner
         }
     }
 
-    private void ÑreateUnit()
+    private void CreateUnit()
     {
         int unitPositionNumber = UnityEngine.Random.Range(0, _parkingSpace.Count());
         Vector3 unitPosition = transform.position + _parkingSpace[unitPositionNumber];
