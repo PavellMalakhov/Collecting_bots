@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourceSpawner: {fileID: 1894855889}
-  _prefabUnit: {fileID: 3212867563942882177, guid: 108805852260d40409eaad9ec4db2649, type: 3}
+  _prefabUnit: {fileID: 8201768696984554466, guid: 108805852260d40409eaad9ec4db2649, type: 3}
   _scanner: {fileID: 1037783034}
   _unitStartValue: 3
 --- !u!1 &1048292678
