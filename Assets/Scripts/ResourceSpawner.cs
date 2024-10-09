@@ -1,21 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
-using System;
 
 public class ResourceSpawner : MonoBehaviour
 {
     [SerializeField] private Resource _prefab;
     [SerializeField] private int _poolCapaciti = 95;
     [SerializeField] private int _poolMaxSize = 100;
-    [SerializeField] private float _repeatTime = 5f;
+    [SerializeField] private float _repeatTime = 2f;
     [SerializeField] private float _resourceAreaSize = 50;
     [SerializeField] private float _heightArea = 0;
     [SerializeField] private Base _base;
 
     private ObjectPool<Resource> _pool;
-
-    public event Action<Resource> ResourceWasBorned;
 
     private void Awake()
     {
@@ -29,11 +26,6 @@ public class ResourceSpawner : MonoBehaviour
         maxSize: _poolMaxSize);
     }
 
-    private void Start()
-    {
-        StartCoroutine(RepeatGetResource(_repeatTime));
-    }
-
     private void OnEnable()
     {
         _base.ResourceUnloaded += Release;
@@ -42,6 +34,11 @@ public class ResourceSpawner : MonoBehaviour
     private void OnDisable()
     {
         _base.ResourceUnloaded -= Release;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(RepeatGetResource(_repeatTime));
     }
 
     private void CreateResource()
@@ -66,8 +63,6 @@ public class ResourceSpawner : MonoBehaviour
         resource.transform.position = new Vector3(
             UnityEngine.Random.Range(-_resourceAreaSize, _resourceAreaSize), _heightArea,
             UnityEngine.Random.Range(-_resourceAreaSize, _resourceAreaSize));
-
-        ResourceWasBorned?.Invoke(resource);
     }
 
     private IEnumerator RepeatGetResource(float delay)

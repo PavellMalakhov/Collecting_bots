@@ -505,8 +505,8 @@ GameObject:
   - component: {fileID: 1037783030}
   - component: {fileID: 1037783033}
   - component: {fileID: 1037783032}
-  - component: {fileID: 1037783034}
   - component: {fileID: 1037783035}
+  - component: {fileID: 1037783034}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -580,22 +580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f606eb4d6c30047b622bf033e24a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _base: {fileID: 1037783035}
+  _base: {fileID: 1037783034}
   _resourceValue: 0
 --- !u!114 &1037783034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037783028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656b35feee5396745869a2db455543a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _resourceSpawner: {fileID: 1894855889}
---- !u!114 &1037783035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -607,10 +594,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2441517d84a7b574381f524346b2b52a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceSpawner: {fileID: 1894855889}
+  _scanner: {fileID: 1037783035}
   _prefabUnit: {fileID: 8201768696984554466, guid: 108805852260d40409eaad9ec4db2649, type: 3}
-  _scanner: {fileID: 1037783034}
   _unitStartValue: 3
+--- !u!114 &1037783035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037783028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656b35feee5396745869a2db455543a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1048292678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,7 +1198,7 @@ MonoBehaviour:
   _repeatTime: 2
   _resourceAreaSize: 50
   _heightArea: 0
-  _base: {fileID: 1037783035}
+  _base: {fileID: 1037783034}
 --- !u!64 &1894855890
 MeshCollider:
   m_ObjectHideFlags: 0

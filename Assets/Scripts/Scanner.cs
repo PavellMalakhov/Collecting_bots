@@ -1,24 +1,75 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Scanner : MonoBehaviour
 {
-    [SerializeField] private ResourceSpawner _resourceSpawner;
+    private Resource[] _resourceInZone;
+    private List<Resource> _resourceActive = new();
+    private WaitForSeconds _wait;
 
-    protected Queue<Resource> ResourceActive = new();
+    public event Action<Resource> ResourceFounded;
 
-    private void OnEnable()
+    protected virtual void Awake()
     {
-        _resourceSpawner.ResourceWasBorned += FindResource;
+        float scanRpeatTime = 0.5f;
+        
+        _wait = new WaitForSeconds(scanRpeatTime);
     }
 
-    private void OnDisable()
+    protected virtual void Start()
     {
-        _resourceSpawner.ResourceWasBorned -= FindResource;
+        StartCoroutine(ScanRepeater());
     }
 
-    private void FindResource(Resource resource)
+    private IEnumerator ScanRepeater()
     {
-        ResourceActive.Enqueue(resource);
+        while (enabled)
+        {
+            yield return _wait;
+
+            Scan();
+        }
+    }
+
+    private void Scan()
+    {
+        _resourceInZone = FindObjectsByType<Resource>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        for (int i = 0; i < _resourceInZone.Length; i++)
+        {
+            if (_resourceActive.Contains(_resourceInZone[i]) == false)
+            {
+                _resourceActive.Add(_resourceInZone[i]);
+
+                ResourceFounded?.Invoke(_resourceInZone[i]);
+            }
+        }
+
+        RemoveInactiveResource();
+    }
+
+    private void RemoveInactiveResource()
+    {
+        int valueDiscrepancies = 0;
+
+        for (int i = 0; i < _resourceActive.Count; i++)
+        {
+            for (int j = 0; j < _resourceInZone.Length; j++)
+            {
+                if (_resourceActive[i] != _resourceInZone[j])
+                {
+                    valueDiscrepancies++;
+                }
+            }
+
+            if (valueDiscrepancies == _resourceInZone.Length)
+            {
+                _resourceActive.RemoveAt(i);
+            }
+
+            valueDiscrepancies = 0;
+        }
     }
 }

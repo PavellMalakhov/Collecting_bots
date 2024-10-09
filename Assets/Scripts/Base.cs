@@ -3,12 +3,13 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public class Base : Scanner
+public class Base : MonoBehaviour
 {
-    [SerializeField] private Unit _prefabUnit;
     [SerializeField] private Scanner _scanner;
+    [SerializeField] private Unit _prefabUnit;
     [SerializeField] private int _unitStartValue;
- 
+
+    private Queue<Resource> _resourceForDelivery = new ();
     private Queue<Unit> _units = new();
     private List<Vector3> _parkingSpace = new();
 
@@ -28,6 +29,16 @@ public class Base : Scanner
         new Vector3(-3.54f, 0, -3.54f)};
     }
 
+    private void OnEnable()
+    {
+        _scanner.ResourceFounded += AddResourseForDelivery;
+    }
+
+    private void OnDisable()
+    {
+        _scanner.ResourceFounded -= AddResourseForDelivery;
+    }
+
     private void Start()
     {
         for (int i = 0; i < _unitStartValue; i++)
@@ -38,10 +49,15 @@ public class Base : Scanner
 
     private void FixedUpdate()
     {
-        if (_units.Count > 0 && ResourceActive.Count > 0)
+        if (_units.Count > 0 && _resourceForDelivery.Count > 0)
         {
-            Deliver?.Invoke(_units.Dequeue(), ResourceActive.Dequeue());
+            Deliver?.Invoke(_units.Dequeue(), _resourceForDelivery.Dequeue());
         }
+    }
+
+    private void AddResourseForDelivery(Resource resource)
+    {
+        _resourceForDelivery.Enqueue(resource);
     }
 
     private void CreateUnit()
@@ -52,6 +68,7 @@ public class Base : Scanner
 
         _units.Enqueue(unit);
         unit.Unloaded += EnqueueUnit;
+        unit.Disable += Unsubscribe;
         _parkingSpace.RemoveAt(unitPositionNumber);
     }
 
@@ -60,5 +77,12 @@ public class Base : Scanner
         ResourceUnloaded?.Invoke(resource);
 
         _units.Enqueue(unit);
+    }
+
+    private void Unsubscribe(Unit unit)
+    {
+        unit.Unloaded -= EnqueueUnit;
+
+        unit.Disable -= Unsubscribe;
     }
 }
