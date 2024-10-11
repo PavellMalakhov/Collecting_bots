@@ -5,20 +5,23 @@ using System;
 
 public class Scanner : MonoBehaviour
 {
-    private Resource[] _resourceInZone;
+    [SerializeField] float _scanRpeatTime = 0.5f;
+    [SerializeField] private float _resourceAreaSize = 50f;
+    [SerializeField] private LayerMask _resourceLayerMask;
+
+    private Collider[] _resourceColliderInZone;
+    private List<Resource> _resourceInZone = new();
     private List<Resource> _resourceActive = new();
     private WaitForSeconds _wait;
 
     public event Action<Resource> ResourceFounded;
 
-    protected virtual void Awake()
+    private void Awake()
     {
-        float scanRpeatTime = 0.5f;
-        
-        _wait = new WaitForSeconds(scanRpeatTime);
+        _wait = new WaitForSeconds(_scanRpeatTime);
     }
 
-    protected virtual void Start()
+    private void Start()
     {
         StartCoroutine(ScanRepeater());
     }
@@ -29,47 +32,56 @@ public class Scanner : MonoBehaviour
         {
             yield return _wait;
 
-            Scan();
+            FindResources();
         }
     }
 
-    private void Scan()
+    private void FindResources()
     {
-        _resourceInZone = FindObjectsByType<Resource>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        ScanZone();
 
-        for (int i = 0; i < _resourceInZone.Length; i++)
-        {
-            if (_resourceActive.Contains(_resourceInZone[i]) == false)
-            {
-                _resourceActive.Add(_resourceInZone[i]);
-
-                ResourceFounded?.Invoke(_resourceInZone[i]);
-            }
-        }
+        AddNewActiveResource();
 
         RemoveInactiveResource();
     }
 
+    private void ScanZone()
+    {
+        _resourceColliderInZone = Physics.OverlapBox(Vector3.zero, new Vector3(_resourceAreaSize, 0f, _resourceAreaSize),
+            Quaternion.identity, _resourceLayerMask);
+
+        foreach (var item in _resourceColliderInZone)
+        {
+            if (item.TryGetComponent<Resource>(out Resource resource))
+            {
+                _resourceInZone.Add(resource);
+            }
+        }
+    }
+
+    private void AddNewActiveResource()
+    {
+        foreach (var item in _resourceInZone)
+        {
+            if (!_resourceActive.Contains(item))
+            {
+                _resourceActive.Add(item);
+
+                ResourceFounded?.Invoke(item);
+            }
+        }
+    }
+
     private void RemoveInactiveResource()
     {
-        int valueDiscrepancies = 0;
-
         for (int i = 0; i < _resourceActive.Count; i++)
         {
-            for (int j = 0; j < _resourceInZone.Length; j++)
+            if (!_resourceInZone.Contains(_resourceActive[i]))
             {
-                if (_resourceActive[i] != _resourceInZone[j])
-                {
-                    valueDiscrepancies++;
-                }
+                _resourceActive.Remove(_resourceActive[i]);
             }
-
-            if (valueDiscrepancies == _resourceInZone.Length)
-            {
-                _resourceActive.RemoveAt(i);
-            }
-
-            valueDiscrepancies = 0;
         }
+
+        _resourceInZone.Clear();
     }
 }

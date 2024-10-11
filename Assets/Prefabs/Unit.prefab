@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2636672960000777213}
   - component: {fileID: 8201768696984554466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b39f8e2fdcb4f84ebe52c9c49f51dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _base: {fileID: 0}
 --- !u!1 &7846581975114068157
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7471322347632880135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LX570Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +88,7 @@ GameObject:
   - component: {fileID: 6094896159681360868}
   - component: {fileID: 2248099982499073234}
   - component: {fileID: 2560847102874024800}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LX570
   m_TagString: Untagged
   m_Icon: {fileID: 0}
