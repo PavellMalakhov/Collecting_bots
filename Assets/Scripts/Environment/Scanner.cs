@@ -13,13 +13,9 @@ public class Scanner : MonoBehaviour
     private List<Resource> _resourceInZone = new();
     private List<Resource> _resourceActive = new();
     private WaitForSeconds _wait;
+    private float _variationScanRpeatTime = 0.05f;
 
     public event Action<Resource> ResourceFounded;
-
-    private void Awake()
-    {
-        _wait = new WaitForSeconds(_scanRpeatTime);
-    }
 
     private void Start()
     {
@@ -30,6 +26,8 @@ public class Scanner : MonoBehaviour
     {
         while (enabled)
         {
+            _wait = new WaitForSeconds(UnityEngine.Random.Range(_scanRpeatTime + _variationScanRpeatTime, _scanRpeatTime - _variationScanRpeatTime));
+
             yield return _wait;
 
             FindResources();
@@ -39,10 +37,6 @@ public class Scanner : MonoBehaviour
     private void FindResources()
     {
         ScanZone();
-
-        AddNewActiveResource();
-
-        RemoveInactiveResource();
     }
 
     private void ScanZone()
@@ -52,36 +46,12 @@ public class Scanner : MonoBehaviour
 
         foreach (var item in _resourceColliderInZone)
         {
-            if (item.TryGetComponent<Resource>(out Resource resource))
+            if (item.TryGetComponent<Resource>(out Resource resource) && resource.Scanner == null)
             {
-                _resourceInZone.Add(resource);
+                resource.SetScanner(this);
+                
+                ResourceFounded?.Invoke(resource);
             }
         }
-    }
-
-    private void AddNewActiveResource()
-    {
-        foreach (var item in _resourceInZone)
-        {
-            if (!_resourceActive.Contains(item))
-            {
-                _resourceActive.Add(item);
-
-                ResourceFounded?.Invoke(item);
-            }
-        }
-    }
-
-    private void RemoveInactiveResource()
-    {
-        for (int i = 0; i < _resourceActive.Count; i++)
-        {
-            if (!_resourceInZone.Contains(_resourceActive[i]))
-            {
-                _resourceActive.Remove(_resourceActive[i]);
-            }
-        }
-
-        _resourceInZone.Clear();
     }
 }

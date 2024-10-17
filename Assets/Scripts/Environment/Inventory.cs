@@ -8,6 +8,22 @@ public class Inventory : MonoBehaviour
 
     public event Action<int> ResourceChanged;
 
+    public int GetResource(int requiredAmountResources)
+    {
+        if (_resourceValue < requiredAmountResources)
+        {
+            return _resourceValue;
+        }
+        else
+        {
+            _resourceValue -= requiredAmountResources;
+
+            ResourceChanged?.Invoke(_resourceValue);
+
+            return requiredAmountResources;
+        }
+    }
+
     private void OnEnable()
     {
         _base.ResourceUnloaded += AddResource;

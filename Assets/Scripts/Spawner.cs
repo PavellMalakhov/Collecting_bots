@@ -35,9 +35,9 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
         Init(obj);
     }
 
-    protected virtual void Init(T gameObject) { }
+    protected internal virtual void Init(T gameObject) { }
 
-    protected void ReleaseGameObject(T gameObject)
+    protected internal virtual void ReleaseGameObject(T gameObject)
     {
         _pool.Release(gameObject);
     }
