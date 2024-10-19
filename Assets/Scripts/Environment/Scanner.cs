@@ -36,19 +36,14 @@ public class Scanner : MonoBehaviour
 
     private void FindResources()
     {
-        ScanZone();
-    }
-
-    private void ScanZone()
-    {
         _resourceColliderInZone = Physics.OverlapBox(Vector3.zero, new Vector3(_resourceAreaSize, 0f, _resourceAreaSize),
             Quaternion.identity, _resourceLayerMask);
 
         foreach (var item in _resourceColliderInZone)
         {
-            if (item.TryGetComponent<Resource>(out Resource resource) && resource.Scanner == null)
+            if (item.TryGetComponent<Resource>(out Resource resource) && !resource.IsFound)
             {
-                resource.SetScanner(this);
+                resource.Find();
                 
                 ResourceFounded?.Invoke(resource);
             }

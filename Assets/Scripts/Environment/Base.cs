@@ -7,6 +7,7 @@ public class Base : MonoBehaviour
     [SerializeField] private Scanner _scanner;
     [SerializeField] private UnitSpawner _unitSpawner;
     [SerializeField] private int _unitStartValue;
+    [SerializeField] private int _unitCreateValue;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private FlagSeter _flagSeter;
  
@@ -38,7 +39,7 @@ public class Base : MonoBehaviour
         CreateUnits(_unitStartValue);
     }
 
-    private void FixedUpdate()
+    private void Work()
     {
         if (_buildingNewBase == true && _units > 1)
         {
@@ -59,7 +60,7 @@ public class Base : MonoBehaviour
         {
             if (_inventory.GetResource(_resourceForCreatUnit) == _resourceForCreatUnit)
             {
-                CreateUnits(_unitStartValue);
+                CreateUnits(_unitCreateValue);
             }
         }
     }
@@ -69,16 +70,20 @@ public class Base : MonoBehaviour
         _buildingNewBase = true;
 
         _flag = flag;
+
+        Work();
     }
 
     private void AddResourseForDelivery(Resource resource)
     {
         _resourceForDelivery.Enqueue(resource);
+
+        Work();
     }
 
-    private void CreateUnits(int unitStartValue)
+    private void CreateUnits(int unitCreateValue)
     {
-        for (int i = 0; i < unitStartValue; i++)
+        for (int i = 0; i < unitCreateValue; i++)
         {
             Unit unit = _unitSpawner.CreateGameObject();
 
@@ -89,6 +94,8 @@ public class Base : MonoBehaviour
             _unitsForDelivery.Enqueue(unit);
 
             _units++;
+
+            Work();
         }
     }
 
@@ -97,6 +104,8 @@ public class Base : MonoBehaviour
         ResourceUnloaded?.Invoke(resource);
 
         _unitsForDelivery.Enqueue(unit);
+
+        Work();
     }
 
     private void Unsubscribe(Unit unit, Vector3 parkingSpace)
@@ -110,5 +119,7 @@ public class Base : MonoBehaviour
         _unitSpawner.ReleaseGameObject(unit);
 
         _units--;
+
+        Work();
     }
 }

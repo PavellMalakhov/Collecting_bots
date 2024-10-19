@@ -15,7 +15,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
         createFunc: () => Instantiate(_prefab),
         actionOnGet: (obj) => SetActive(obj),
         actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-        actionOnDestroy: (obj) => Destroy(obj),
+        actionOnDestroy: (obj) => Destroy(obj.gameObject),
         collectionCheck: true,
         defaultCapacity: _poolCapaciti,
         maxSize: _poolMaxSize);

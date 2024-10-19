@@ -4,13 +4,14 @@ using System;
 public class Resource : MonoBehaviour
 {
     public event Action<Resource> Recycled;
-    public Scanner Scanner { get; private set; }
 
-    public void SetScanner(Scanner scanner)
+    public bool IsFound { get; private set; }
+
+    public void Find ()
     {
-        if (Scanner == null)
+        if (!IsFound)
         {
-            Scanner = scanner;
+            IsFound = true;
         }
     }
 
@@ -21,6 +22,6 @@ public class Resource : MonoBehaviour
 
     private void OnEnable()
     {
-        Scanner = null;
+        IsFound = false;
     }
 }

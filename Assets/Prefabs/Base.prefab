@@ -80,6 +80,7 @@ MonoBehaviour:
   _scanner: {fileID: 68494746186481049}
   _unitSpawner: {fileID: 742863408159936906}
   _unitStartValue: 1
+  _unitCreateValue: 1
   _inventory: {fileID: 2921339431583421182}
   _flagSeter: {fileID: 7122335738542634856}
 --- !u!114 &2921339431583421182
@@ -140,8 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8201768696984554466, guid: 108805852260d40409eaad9ec4db2649, type: 3}
-  _poolCapaciti: 95
-  _poolMaxSize: 100
+  _poolCapaciti: 8
+  _poolMaxSize: 10
 --- !u!114 &7122335738542634856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,11 +158,11 @@ MonoBehaviour:
   _flagPreview: {fileID: 6634078333327623419}
   _flag: {fileID: 6639561669525850573}
   _camera: {fileID: 0}
-  _inputReader: {fileID: 0}
+  _player: {fileID: 0}
   _layerMask:
     serializedVersion: 2
     m_Bits: 1
-  _canDrawPrevieFlag: 0
+  _canDrawPreviewFlag: 0
   _canPutFlag: 0
 --- !u!1 &1437862005350379266
 GameObject:

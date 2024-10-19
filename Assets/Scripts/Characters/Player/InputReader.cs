@@ -5,8 +5,9 @@ public class InputReader : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
 
-    private readonly string MouseX = "Mouse X";
-    private readonly string MouseY = "Mouse Y";
+    private readonly string _mouseX = "Mouse X";
+    private readonly string _mouseY = "Mouse Y";
+    private readonly int _mouseButton = 0;
 
     [SerializeField] private bool _isClickSetFlag = false;
 
@@ -17,9 +18,9 @@ public class InputReader : MonoBehaviour
     {
         MoveDirection = new Vector3(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
 
-        LookDirection = new Vector2(Input.GetAxis(MouseX), - Input.GetAxis(MouseY));
+        LookDirection = new Vector2(Input.GetAxis(_mouseX), - Input.GetAxis(_mouseY));
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(_mouseButton))
         {
             _isClickSetFlag = true;
         }
