@@ -73,7 +73,9 @@ public class Unit : MonoBehaviour
 
     private IEnumerator BuildBase(float timeTravel, Vector3 placeToStop, Flag flag)
     {
-        var wait = new WaitForSeconds(timeTravel);
+        float timeBuildBase = 1f;
+
+        var wait = new WaitForSeconds(timeTravel + timeBuildBase);
         
         yield return wait;
 
