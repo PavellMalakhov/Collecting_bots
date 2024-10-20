@@ -60,7 +60,7 @@ public class Unit : MonoBehaviour
     {
         Sequence sequence = DOTween.Sequence();
 
-        _parkingSpace = transform.position;
+        _parkingSpace = transform.localPosition;
         Vector3 placeToStop = flag.transform.position;
 
         _timeTravel = (placeToStop - _parkingSpace).magnitude / _speed;
@@ -73,9 +73,7 @@ public class Unit : MonoBehaviour
 
     private IEnumerator BuildBase(float timeTravel, Vector3 placeToStop, Flag flag)
     {
-        float timeBuildBase = 1f;
-
-        var wait = new WaitForSeconds(timeTravel + timeBuildBase);
+        var wait = new WaitForSeconds(_timeRotate + timeTravel);
         
         yield return wait;
 

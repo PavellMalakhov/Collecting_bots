@@ -30,9 +30,9 @@ public class UnitSpawner : Spawner<Unit>
     {
         int unitPositionNumber = Random.Range(0, _parkingSpace.Count());
 
-        Vector3 unitPosition = transform.position + _parkingSpace[unitPositionNumber];
-
         unit.transform.SetParent(transform);
+
+        Vector3 unitPosition = transform.position + _parkingSpace[unitPositionNumber];
 
         unit.transform.SetPositionAndRotation(unitPosition, Quaternion.LookRotation(_parkingSpace[unitPositionNumber]));
 
